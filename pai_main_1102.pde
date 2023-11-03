@@ -1,62 +1,8 @@
-class Pai {
-  int x;
-  int y = 10, w = 50, h = 200;
-  int info; // パイの種類: 1, 2, 3 = 白, 青, 黒
-
-  boolean isClicked; // パイが選択されているかどうか
-
-  Pai(int info, int x) {
-    this.x = x;
-    this.info = info;
-    this.isClicked = false;
-  }
-
-  void display() {
-
-    if (info == 1) {
-      fill(255);
-    } else if (info == 2) {
-      fill(0, 0, 255);
-    } else {
-      fill(0);
-    }
 
 
-    rect(x, y, w, h);
-  }
-
-  void updata() {
-  }
-}
-
-
-class Staff {
-  int id; // スタッフの番号
-  int x, y; // スタッフ番号を表示する座標
-
-  boolean isAttendance; // スタッフが出勤しているかいないか
-
-  Staff() { // インスタンスを生成したときに初期化する
-    this.isAttendance = false;
-  }
-
-  // スタッフの番号などを表示
-  void display() {
-  }
-
-  //　スタッフの情報などを更新
-  void updata() {
-  }
-
-  // スタッフの初期化
-
-  void init() {
-  }
-}
 
 int[] rec;
 boolean one = true;
-
 String numStr = "";
 int member1=0;
 int member2=0;
@@ -90,22 +36,26 @@ void setup() {
   textSize(20);
 }
 void draw() {
-  
-  for(int i = 0; i < pai.length; i++){
-    
-
+  background(255);
   if (isMemberInputed) {      // member1,2が入力完了したあと
     if (one) {
+      rec = new int[member1 + 3];
       staff = new Staff[member1 + 3];
       pai = new Pai[member1 + 3];
       initStaff(staff);
       initPai(pai);
 
-      rec = new int[member1 + 3];
+
 
       one = false;
     }
-    background(255);
+    //drawPai();
+    
+    for(int i = 0; i < pai.length; i ++){
+      pai[i].display();
+    }
+
+
     text(numStr, width / 2, height / 4);
     text("Clicked pai black is '" + clickedIndex + "'", width/2, height * 1/3);
     fill(0);
@@ -119,6 +69,7 @@ void draw() {
     // println("Input member1 & member2");
   }
 }
+
 
 
 // パイを表示させる関数
@@ -204,7 +155,9 @@ boolean drawButton_1(int x, int y, int w, int h) {
   }
 }
 
-
+void selectedIndexEllipse(){ // クリックされたパイに目印をつける関数
+  
+}
 
 
 void keyPressed() {
@@ -261,15 +214,16 @@ void initStaff(Staff[] staff) {
 // Paiオブジェクトを初期化
 void initPai(Pai[] pai) {
   int info = 0;
+  int w = width / (member1 + 3);
   for (int i = 0; i < pai.length; i++) {
 
-    if (member2 == i) {  // パイが先頭のとき（青）
+    if (member2 == i || member1 +  2== i) {  // パイが先頭のとき（青）
       info = 2;
-    } else if (member2 + 1 == i) { // パイが壁の時(黒)
+    } else if (member2 + 1 == i ) { // パイが壁の時(黒)
       info = 3;
     } else {                      // 何もなし(白）
       info = 1;
     }
-    pai[i] = new Pai(info, rec[i]);
+    pai[i] = new Pai(info, i * w);
   }
 }
